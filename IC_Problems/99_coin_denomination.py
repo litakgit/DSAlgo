@@ -5,6 +5,7 @@ def get_no_of_ways_coin_can_make(coins, X):
     for i in range(len(table)):
         table[i][0] = 1
 
+    # Check the table declaration. Range out of bound errors to be considered.
     for i in range(1, len(table)):
         for j in range(1, len(table[0])):
             # Here you need to use the (***) if you use if else.
