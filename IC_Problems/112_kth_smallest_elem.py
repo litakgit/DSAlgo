@@ -27,16 +27,23 @@ def get_pivot_after_partition(A, start, end, rpivot):
 def get_kth_smallest_elem(A, k):
     start, end = 0, len(A)
     while start < end:
-        # randrange throws exception is start==end
+        # randrange throws exception is start==end. So the above condition.
+        # randrange generates random no from start to end-1.
         random_pivot = random.randrange(start, end)
         pivot = get_pivot_after_partition(A, start, end, A[random_pivot])
 
         if pivot == k:
             return A[pivot]
         elif pivot > k:
+            # here end will be pivot because randrange will generate nos
+            # from start to pivot-1. If we put end = pivot-1 then we are
+            # going to loose pivot-1. And if pivot-1 is the right elem,
+            # then wrong answer. 
             start, end = start, pivot
         else:
+            # Here start will be pivot+1, and randrange will use this no.
             start, end = pivot+1, end
+        #print (start, end)
     return -1
 
 
