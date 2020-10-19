@@ -1,38 +1,42 @@
+
 import collections
 
-# Given a graph, mark each connected components with different colors.
-# This problem boils down to finding the no of connected components only.
+# Directed graph OR un-directed graph?
+# List of tuples - consider the case of single node with in/out degree == 0.
+# dfs function better to define as closure.
+def build_graph(L):
+    graph = collections.defaultdict(list)
 
-def get_no_of_connected_components(g):
-    def dfs(g, start):
-        state[start] = 'G'
-        for nei in g[start]:
+    for elem in L:
+        # L = [(1,2), (1,4), (3,)]
+        if len(elem) >= 2:
+            graph[elem[0]].append(elem[1])
+            graph[elem[1]].append(elem[0])
+        else:
+            graph[elem[0]]
+
+    return graph
+
+def connected_components(L):
+    graph = build_graph(L)
+
+    def dfs(graph, node):
+        state[node] = 'G'
+        for nei in graph[node]:
             if state[nei] == 'W':
-                dfs(g, nei)
-        state[start] = 'B'
-        return False
+                dfs(graph, nei)
+        state[node] = 'B'
 
-    state = {node : 'W' for node in g}
-    color = 0
+    state = {node : 'W' for node in graph}
+    connected_components_in_graph = 0
 
-    for node in g:
+    for node in graph:
         if state[node] == 'W':
-            color += 1
-            dfs(g, node)
+            dfs(graph, node)
+            connected_components_in_graph += 1
 
-    return color
+    return connected_components_in_graph
 
 if __name__ == "__main__":
-    g = collections.defaultdict(list)
-    g[1].append(2)
-    g[2].append(1)
-    g[1].append(3)
-    g[3].append(1)
-    g[2].append(4)
-    g[4].append(2)
-    g[3].append(3)
-    g[5].append(6)
-    g[6].append(5)
-    g[7]
-    print (g)
-    print (get_no_of_connected_components(g))
+    L = [(1,2), (1,4), (3,)]
+    print (connected_components(L))
