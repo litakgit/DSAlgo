@@ -21,18 +21,13 @@ def delete_nodes_to_make_forests(root, delete_nodes):
         update_forests(node, pos)
         if not node:
             return
-        if node.data in delete_nodes:
-            if node.left:
-                gpos += 1
-                pos = gpos
-                build_forests(node.left, pos)
-            if node.right:
-                gpos += 1
-                pos = gpos
-                build_forests(node.right, pos)
-        else:
-            build_forests(node.left, pos)
-            build_forests(node.right, pos)
+        for nei in (node.left, node.right):
+            if node.data in delete_nodes:
+                if nei:
+                    gpos += 1
+                    build_forests(nei, gpos)
+            else:
+                build_forests(nei, pos)
 
     forest = collections.defaultdict(list)
     build_forests(root, gpos)
@@ -44,5 +39,5 @@ def delete_nodes_to_make_forests(root, delete_nodes):
 if __name__ == "__main__":
     tree = TreeNode(1, TreeNode(2, TreeNode(4), TreeNode(5, TreeNode(8, TreeNode(9), TreeNode(10)), TreeNode(12))), TreeNode(3, TreeNode(6), TreeNode(7)))
     print (tree)
-    delete_nodes_to_make_forests(tree, [2, 8, 9, 5])
+    delete_nodes_to_make_forests(tree, [1, 5])
     #delete_nodes_to_make_forests(tree, [12])
